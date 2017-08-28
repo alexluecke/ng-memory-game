@@ -2,6 +2,7 @@ import { AppComponent } from './app.component';
 import { AppReducer, AppState } from './app-reducer';
 import { BrowserModule } from '@angular/platform-browser';
 import { CardModule } from './game/components/card/card.module';
+import { CardService } from './game/services/card.service';
 import { NgModule } from '@angular/core';
 import { NgRedux, NgReduxModule } from '@angular-redux/store';
 
@@ -10,6 +11,9 @@ import { NgRedux, NgReduxModule } from '@angular-redux/store';
     NgReduxModule,
     BrowserModule,
     CardModule
+  ],
+  providers: [
+    CardService
   ],
   declarations: [
     AppComponent

@@ -1,25 +1,35 @@
-import { AppState } from '../../../app-reducer';
 import { CardActions } from '../../store/actions/card-actions';
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { NgRedux } from '@angular-redux/store';
+import { Component, HostBinding, HostListener, Input, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { SelectedCardStoreProxyService } from '../../store/proxy/selected-card-store-proxy.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'mg-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css']
 })
-export class CardComponent implements OnInit {
+export class CardComponent implements OnDestroy {
+  @HostBinding('class.selected') public isSelected: boolean;
   @Input() public id: number;
-  @Output() public onFlip = new EventEmitter<number>();
+  public selected$: Observable<boolean>;
+  public subscriptions: Subscription[] = [];
 
   constructor(
-    private ngRedux: NgRedux<AppState>
-  ) { }
+    private selectedCardStoreProxyService: SelectedCardStoreProxyService
+  ) {
+    this.subscriptions = [
+      this.selectedCardStoreProxyService.get().map(selected => {
+        this.isSelected = selected.some(id => id === this.id);
+      }).subscribe()
+    ];
+  }
 
-  public ngOnInit() { }
+  public ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe());
+  }
 
   @HostListener('click') public handleClick() {
-    this.onFlip.emit(this.id);
-    this.ngRedux.dispatch(CardActions.select(this.id));
+    this.selectedCardStoreProxyService.dispatch(this.id);
   }
 }
