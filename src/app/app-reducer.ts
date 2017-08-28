@@ -11,7 +11,7 @@ export class AppReducer {
     game: GameReducer.defaultState
   };
 
-  public static reducer = combineReducers<AppState>({
+  private static reducer = combineReducers<AppState>({
     game: GameReducer.reduce
   });
 
