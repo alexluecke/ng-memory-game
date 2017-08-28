@@ -1,0 +1,17 @@
+:host {
+  align-self: center;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 90vh;
+  padding: 0;
+  margin: 0;
+}
+
+:host mg-card {
+  height: 12.5%;
+  width: 6.5%;
+  margin: 1%;
+  border: 1px solid #000;
+}
