@@ -1,1 +1,2 @@
+<span *ngFor="let pair of pairs">({{ pair[0] }}, {{ pair[1] }})</span>
 <mg-card *ngFor="let card of cards" [id]="card" (onFlip)="handleFlip($event)"></mg-card>
