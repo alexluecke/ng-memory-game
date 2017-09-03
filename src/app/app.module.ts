@@ -1,5 +1,5 @@
 import { AppComponent } from './app.component';
-import { AppReducer, AppState } from './app-reducer';
+import { AppReducer, AppState } from '@AppBase/store';
 import { BrowserModule } from '@angular/platform-browser';
 import { CardModule } from './game/components/card/card.module';
 import { CardService } from './game/services/card.service';

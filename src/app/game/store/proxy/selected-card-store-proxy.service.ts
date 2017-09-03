@@ -1,8 +1,10 @@
-import { AppState } from '../../../app-reducer';
-import { CardActions } from '../actions/card-actions';
+import { AppState } from '@AppBase/store';
+import { Card, CardPair } from '@MemoryGame/models';
 import { Injectable } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
+
+import { CardActions } from '../actions/card-actions';
 
 // TODO remove
 import { GameState } from '../reducers/game-reducer';
@@ -12,16 +14,15 @@ export class SelectedCardStoreProxyService {
 
   constructor(private redux: NgRedux<AppState>) {}
 
-  public get(): Observable<number[]> {
+  public getSelectedCards(): Observable<Card[]> {
     return this.redux.select((state: AppState) => state.game.selected);
   }
 
-  // TODO remove
-  public all(): Observable<GameState> {
-    return this.redux.select((state: AppState) => state.game);
+  public getCardPairs(): Observable<CardPair[]> {
+    return this.redux.select((state: AppState) => state.game.pairs);
   }
 
-  public dispatch(id: number): void {
-    this.redux.dispatch(CardActions.select(id));
+  public dispatch(card: Card): void {
+    this.redux.dispatch(CardActions.select(card));
   }
 }

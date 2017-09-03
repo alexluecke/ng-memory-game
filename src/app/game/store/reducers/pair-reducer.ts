@@ -1,7 +1,10 @@
+import { Card, CardPair } from '@MemoryGame/models';
+import { CardCmp } from '@MemoryGame/lib';
+
 import { PairAction, PairActions } from '../actions/pair-actions';
 import { Reducer } from 'redux';
 
-export type PairState = [number, number][];
+export type PairState = CardPair[];
 
 export class PairReducer {
   public static readonly defaultState: PairState = [];
@@ -21,18 +24,19 @@ export class PairReducer {
     return [];
   }
 
-  private static add(state: PairState, pair: [number, number]): PairState {
+  private static add(state: PairState, pair: CardPair): PairState {
     const [a, b] = pair;
 
     /* a or b can be a zero value identifier => truthiness cannot be used */
     if (a === undefined || b === undefined) {
+      console.error('A pair matched with an undefined item.');
       return state;
     }
 
-    if (state.some(p => a !== b && (a in p || b in p))) {
-      return state;
-    } else {
+    if (CardCmp.isPair(a, b)) {
       return [ ...state, pair ];
+    } else {
+      return state;
     }
   }
 }

@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
-import { GameReducer, GameState } from './game/store/reducers/game-reducer';
-import { GameAction } from './game/store/actions/game-actions';
+import { GameAction, GameReducer, GameState } from '@MemoryGame/store';
 
 export type AppState = {
   game: GameState;
