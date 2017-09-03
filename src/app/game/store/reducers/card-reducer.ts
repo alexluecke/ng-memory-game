@@ -1,7 +1,9 @@
-import { CardAction, CardActions } from '../actions/card-actions';
+import { Card } from '@MemoryGame/models';
 import { Reducer } from 'redux';
 
-export type CardState = number[];
+import { CardAction, CardActions } from '../actions/card-actions';
+
+export type CardState = Card[];
 
 export class CardReducer {
   public static readonly defaultState: CardState = [];
@@ -21,11 +23,7 @@ export class CardReducer {
     return [];
   }
 
-  private static select(state: CardState, cardId: number): CardState {
-    if (!state.some(id => id === cardId)) {
-      return [ ...state, cardId ];
-    }
-
-    return state;
+  private static select(state: CardState, card: Card): CardState {
+    return [ ...state, card ];
   }
 }

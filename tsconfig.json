@@ -8,6 +8,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    "baseUrl": "src",
+    "paths": {
+      "@AppBase/*": [ "app/*/index" ],
+      "@MemoryGame/*": [ "app/game/*/index" ]
+    },
     "typeRoots": [
       "node_modules/@types"
     ],

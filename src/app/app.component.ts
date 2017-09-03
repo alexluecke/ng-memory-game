@@ -1,10 +1,11 @@
-import { AppState } from './app-reducer';
+import { AppState } from '@AppBase/store';
+import { Card, CardPair } from '@MemoryGame/models';
+import { CardCmp } from '@MemoryGame/lib';
+import { CardRenderer } from '@MemoryGame/lib';
+import { CardService } from '@MemoryGame/services';
 import { Component } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
-import { CardService } from './game/services/card.service';
-
-// TODO remove
-import { SelectedCardStoreProxyService } from './game/store/proxy/selected-card-store-proxy.service';
+import { SelectedCardStoreProxyService } from '@MemoryGame/store';
 
 @Component({
   selector: 'mg-root',
@@ -12,18 +13,32 @@ import { SelectedCardStoreProxyService } from './game/store/proxy/selected-card-
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public cards: number[];
-    public pairs: [number, number][] = [];
+  public cards: Card[];
+  public pairs: CardPair[] = [];
+  public displayPairs: string[] = [];
 
   constructor(
     private selectedCardStoreProxyService: SelectedCardStoreProxyService, // TODO remove
     private cardService: CardService
   ) {
-    this.cards = this.cardService.getCardValues();
+    this.cards = this.cardService.getCards();
 
-    // TODO remove
-    this.selectedCardStoreProxyService.all().map(state => {
-      this.pairs = state.pairs;
+    this.selectedCardStoreProxyService.getCardPairs().map(pairs => {
+      this.pairs = pairs;
+      this.displayPairs = this.getDisplayPair(pairs);
     }).subscribe();
+
+    this.selectedCardStoreProxyService.getCardPairs().map(state => {
+    }).subscribe();
+  }
+
+  public cardInPairs(card: Card): boolean {
+    return CardCmp.cardInPairs(card, this.pairs);
+  }
+
+  private getDisplayPair(pairs: CardPair[]): string[] {
+    return pairs.reduce((acc, pair) => {
+      return acc.concat(pair.map(x => CardRenderer.toString(x)).join(', '));
+    }, []);
   }
 }

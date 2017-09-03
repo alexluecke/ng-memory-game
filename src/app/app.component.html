@@ -1,2 +1,8 @@
-<span *ngFor="let pair of pairs">({{ pair[0] }}, {{ pair[1] }})</span>
-<mg-card *ngFor="let card of cards" [id]="card" (onFlip)="handleFlip($event)"></mg-card>
+<span *ngFor="let pair of displayPairs">({{ pair }})</span>
+
+<mg-card
+  *ngFor="let card of cards"
+  [hidden]="cardInPairs(card)"
+  [card]="card"
+  (onFlip)="handleFlip($event)">
+</mg-card>

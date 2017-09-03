@@ -1,7 +1,8 @@
-import { CardActions } from '../../store/actions/card-actions';
+import { Card } from '@MemoryGame/models';
+import { CardActions, SelectedCardStoreProxyService as Store } from '@MemoryGame/store';
+import { CardCmp } from '@MemoryGame/lib';
 import { Component, HostBinding, HostListener, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { SelectedCardStoreProxyService } from '../../store/proxy/selected-card-store-proxy.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -11,16 +12,14 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class CardComponent implements OnDestroy {
   @HostBinding('class.selected') public isSelected: boolean;
-  @Input() public id: number;
+  @Input() public card: Card;
   public selected$: Observable<boolean>;
   public subscriptions: Subscription[] = [];
 
-  constructor(
-    private selectedCardStoreProxyService: SelectedCardStoreProxyService
-  ) {
+  constructor(private store: Store) {
     this.subscriptions = [
-      this.selectedCardStoreProxyService.get().map(selected => {
-        this.isSelected = selected.some(id => id === this.id);
+      this.store.getSelectedCards().map(selected => {
+        this.isSelected = selected.some(card => CardCmp.isSameCard(card, this.card));
       }).subscribe()
     ];
   }
@@ -30,6 +29,6 @@ export class CardComponent implements OnDestroy {
   }
 
   @HostListener('click') public handleClick() {
-    this.selectedCardStoreProxyService.dispatch(this.id);
+    this.store.dispatch(this.card);
   }
 }

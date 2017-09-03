@@ -1,5 +1,6 @@
-import { Card, CardValue } from '../models/card';
+import { Card, CardValue } from '@MemoryGame/models';
 import { Injectable } from '@angular/core';
+import { cardValues, cardSuits } from '@MemoryGame/fixtures';
 
 @Injectable()
 export class CardService {
@@ -7,20 +8,13 @@ export class CardService {
 
   constructor() { }
 
-  public encode(card: Card): number {
-    return 0;
-  }
-
-  public decode(value: CardValue): Card {
-    return null;
-  }
-
-
-  public getCardValues(): number[] {
-    return Array.apply(null, Array(52)).map((x, i) => i);
-  }
-
-  private getCards(): Card[] {
-    return [];
+  public getCards(): Card[] {
+    return cardSuits.reduce((acc, suit) => {
+      return acc.concat(
+        cardValues.reduce((cards , value) => {
+          return [ ...cards, { suit, value } ];
+        }, [])
+      );
+    }, []);
   }
 }

@@ -1,17 +1,17 @@
 import { Action } from 'redux';
+import { Card } from '@MemoryGame/models';
+import { StdAction } from '@AppBase/lib';
 
-import { StdAction } from '../../../lib/std-action';
-
-export type CardAction = StdAction<number, void>;
+export type CardAction = StdAction<Card, void>;
 
 export class CardActions {
   public static readonly SELECT = 'game.card.SELECT';
   public static readonly RESET = 'game.card.RESET';
 
-  public static select(id: number): CardAction {
+  public static select(card: Card): CardAction {
     return {
       type: CardActions.SELECT,
-      payload: id
+      payload: card
     };
   }
 
