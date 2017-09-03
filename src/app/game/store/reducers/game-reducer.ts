@@ -17,15 +17,6 @@ export class GameReducer {
   };
 
   public static reduce(state: GameState = GameReducer.defaultState, action: GameAction): GameState {
-    switch (action.type) {
-      case CardActions.SELECT:
-        return GameReducer.select(state, action as CardAction);
-      default:
-        return state;
-    }
-  }
-
-  private static select(state: GameState, action: CardAction): GameState {
     if (!GameReducer.canSelectCard(state, action.payload)) {
       return state;
     }
@@ -59,6 +50,14 @@ export class GameReducer {
 
   private static canSelectCard(state: GameState, cardId: number) {
     /* the card cannot be in either current selection or pairs */
-    return !(cardId in state.selected) && !state.pairs.some(pair => cardId in pair);
+    return this.inPairs(state.pairs, cardId) && this.inSelected(state.selected, cardId);
+  }
+
+  private static inPairs(pairs: [number, number][], cardId): boolean {
+    return !pairs.some(pair => pair.some(id => id === cardId));
+  }
+
+  private static inSelected(selected: number[], cardId): boolean {
+    return !selected.some(id => id === cardId);
   }
 }
