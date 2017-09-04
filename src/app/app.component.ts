@@ -1,7 +1,7 @@
 import { AppState } from '@AppBase/store';
 import { Card, CardPair } from '@MemoryGame/models';
 import { CardCmp } from '@MemoryGame/lib';
-import { CardRenderer } from '@MemoryGame/lib';
+import { CardRenderer, CardOrd } from '@MemoryGame/lib';
 import { CardService } from '@MemoryGame/services';
 import { Component } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
@@ -21,7 +21,7 @@ export class AppComponent {
     private selectedCardStoreProxyService: SelectedCardStoreProxyService, // TODO remove
     private cardService: CardService
   ) {
-    this.cards = this.cardService.getCards();
+    this.cards = CardOrd.shuffle(this.cardService.getCards());
 
     this.selectedCardStoreProxyService.getCardPairs().map(pairs => {
       this.pairs = pairs;
