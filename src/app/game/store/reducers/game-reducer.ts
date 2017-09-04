@@ -15,7 +15,7 @@ export type GameState = {
   pairs: PairState;
 };
 
-/* GameReducer functions as a gateway for CardReducer and PairReducer */
+/* GameReducer is used as a gateway for CardReducer and PairReducer */
 export class GameReducer {
   public static readonly defaultState: GameState = {
     waitingForPair: false,
@@ -54,8 +54,7 @@ export class GameReducer {
     } else {
       return {
         ...state,
-        ...newStatePartial,
-        selected: []
+        ...newStatePartial
       };
     }
   }
