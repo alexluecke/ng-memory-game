@@ -29,6 +29,6 @@ export class CardComponent implements OnDestroy {
   }
 
   @HostListener('click') public handleClick() {
-    this.store.dispatch(this.card);
+    this.store.selectCard(this.card);
   }
 }
