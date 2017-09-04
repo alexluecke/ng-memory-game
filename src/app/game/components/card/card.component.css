@@ -1,3 +1,10 @@
+:host {
+  text-align: center;
+  color: blue;
+  background-color: blue;
+}
+
 :host.selected {
-  background-color: red;
+  color: black;
+  background-color: white;
 }
