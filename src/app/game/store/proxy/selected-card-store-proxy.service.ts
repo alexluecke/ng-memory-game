@@ -4,9 +4,7 @@ import { Injectable } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
-import { CardActions } from '../actions/card-actions';
-
-// TODO remove
+import { GameActions } from '../actions/game-actions';
 import { GameState } from '../reducers/game-reducer';
 
 @Injectable()
@@ -22,7 +20,7 @@ export class SelectedCardStoreProxyService {
     return this.redux.select((state: AppState) => state.game.pairs);
   }
 
-  public dispatch(card: Card): void {
-    this.redux.dispatch(CardActions.select(card));
+  public selectCard(card: Card): void {
+    this.redux.dispatch(GameActions.select(card));
   }
 }
