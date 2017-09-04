@@ -1,10 +1,12 @@
-import { AppComponent } from './app.component';
 import { AppReducer, AppState } from '@AppBase/store';
 import { BrowserModule } from '@angular/platform-browser';
-import { CardModule } from './game/components/card/card.module';
-import { CardService } from './game/services/card.service';
+import { CardService } from '@MemoryGame/services';
 import { NgModule } from '@angular/core';
 import { NgRedux, NgReduxModule } from '@angular-redux/store';
+import thunkMiddleware from 'redux-thunk'
+
+import { AppComponent } from './app.component';
+import { CardModule } from './game/components/card/card.module';
 
 @NgModule({
   imports: [
@@ -24,6 +26,14 @@ import { NgRedux, NgReduxModule } from '@angular-redux/store';
 })
 export class AppModule {
   constructor(ngRedux: NgRedux<AppState>) {
-    ngRedux.configureStore(AppReducer.reduce, AppReducer.defaultState);
+    const reduxMiddleware = [
+      thunkMiddleware
+    ];
+
+    ngRedux.configureStore(
+      AppReducer.reduce,
+      AppReducer.defaultState,
+      reduxMiddleware
+    );
   }
 }
