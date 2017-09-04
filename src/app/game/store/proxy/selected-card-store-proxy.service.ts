@@ -1,5 +1,6 @@
 import { AppState } from '@AppBase/store';
 import { Card, CardPair } from '@MemoryGame/models';
+import { Dispatch } from 'redux';
 import { Injectable } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
@@ -21,6 +22,7 @@ export class SelectedCardStoreProxyService {
   }
 
   public selectCard(card: Card): void {
-    this.redux.dispatch(GameActions.select(card));
+    // TODO: types are borked
+    this.redux.dispatch(GameActions.select(card) as any);
   }
 }
