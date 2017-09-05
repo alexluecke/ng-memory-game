@@ -6,6 +6,7 @@ import { CardService } from '@MemoryGame/services';
 import { Component } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { SelectedCardStoreProxyService } from '@MemoryGame/store';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'mg-root',
@@ -15,6 +16,7 @@ import { SelectedCardStoreProxyService } from '@MemoryGame/store';
 export class AppComponent {
   public cards: Card[];
   public pairs: CardPair[] = [];
+  public selected: Card[] = [];
   public displayPairs: string[] = [];
 
   constructor(
@@ -23,17 +25,22 @@ export class AppComponent {
   ) {
     this.cards = CardOrd.shuffle(this.cardService.getCards());
 
+    this.selectedCardStoreProxyService.getSelectedCards().map(selected => {
+      this.selected = selected;
+    }).subscribe();
+
     this.selectedCardStoreProxyService.getCardPairs().map(pairs => {
       this.pairs = pairs;
       this.displayPairs = this.getDisplayPair(pairs);
-    }).subscribe();
-
-    this.selectedCardStoreProxyService.getCardPairs().map(state => {
     }).subscribe();
   }
 
   public cardInPairs(card: Card): boolean {
     return CardCmp.cardInPairs(card, this.pairs);
+  }
+
+  public cardInSelected(card: Card): boolean {
+    return CardCmp.cardInCards(card, this.selected);
   }
 
   private getDisplayPair(pairs: CardPair[]): string[] {
