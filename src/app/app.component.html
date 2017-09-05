@@ -1,12 +1,14 @@
 <div class="pairs">
+  <h2>Pairs</h2>
   <div *ngFor="let pair of displayPairs">({{ pair }})</div>
 </div>
 
 <div class="cards">
   <mg-card
     *ngFor="let card of cards"
+    class="{{ card.suit }}-{{ card.value }}"
     [class.paired]="cardInPairs(card)"
-    [class.selected]="cardInSelected(card)"
+    [class.unselected]="!cardInSelected(card)"
     [card]="card"
     (onFlip)="handleFlip($event)">
   </mg-card>

@@ -19,7 +19,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "assets/styles/main.css",
+        "assets/styles/playing-cards.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
