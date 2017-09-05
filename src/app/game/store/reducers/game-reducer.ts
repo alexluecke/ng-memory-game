@@ -28,16 +28,16 @@ export class GameReducer {
     switch (action.type) {
       case CardActions.SELECT:
         return GameReducer.select(state, action);
-      case PairActions.ADD:
-        return GameReducer.addIfPair(state, action);
+      case GameActions.PAIR:
+        return GameReducer.pair(state, action);
       case GameActions.WAIT_FOR_PAIR:
-        return GameReducer.waitForPair(state, action);
+        return GameReducer.pairWaiting(state, action);
       default:
         return state;
     }
   }
 
-  private static addIfPair(state: GameState, action: GameAction): GameState {
+  private static pair(state: GameState, action: GameAction): GameState {
     const [a, b] = action.payload as CardPair;
 
     const newStatePartial: Partial<GameState> = {
@@ -59,7 +59,7 @@ export class GameReducer {
     }
   }
 
-  private static waitForPair(state: GameState, action: GameAction): GameState {
+  private static pairWaiting(state: GameState, action: GameAction): GameState {
     return {
       ...state,
       waitingForPair: action.payload as boolean

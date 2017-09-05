@@ -12,6 +12,7 @@ export type GameAction = CardAction | PairAction | StdAction<boolean, void>;
 type GameActionsDispatch = (dispatch: Dispatch<GameAction>, getState: () => AppState) => void;
 
 export class GameActions {
+  public static readonly PAIR = 'game.PAIR';
   public static readonly SELECT = 'game.SELECT';
   public static readonly WAIT_FOR_PAIR = 'game.WAIT_FOR_PAIR';
 
@@ -19,18 +20,25 @@ export class GameActions {
   public static select(card: Card): GameActionsDispatch {
     return (dispatch, getState) => {
 
-      /* first add card to selected */
+      /* first select card */
       dispatch(CardActions.select(card));
 
-      /* card should now be added selected */
+      /* now card should be selected */
       const { waitingForPair, selected } = getState().game as GameState;
       if (!waitingForPair && selected.length === 2) {
         dispatch(GameActions.waitForPair(true));
         setTimeout(() => {
-          dispatch(PairActions.add(selected as CardPair));
+          dispatch(GameActions.pair(selected as CardPair));
           dispatch(GameActions.waitForPair(false));
         }, 2000);
       }
+    };
+  }
+
+  public static pair(cardPair: CardPair): GameAction {
+    return {
+      type: GameActions.PAIR,
+      payload: cardPair
     };
   }
 
